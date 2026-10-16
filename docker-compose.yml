@@ -1,0 +1,21 @@
+version: "3.9"
+services:
+  db:
+    image: postgres:16
+    restart: always
+    environment:
+      POSTGRES_USER: barber
+      POSTGRES_PASSWORD: barber123
+      POSTGRES_DB: barberia
+      # Zona horaria del negocio (México, UTC-6 sin horario de verano).
+      # Sin esto Postgres corre en UTC y queda +6h vs el servidor.
+      TZ: America/Mexico_City
+      PGTZ: America/Mexico_City
+    command: ["postgres", "-c", "timezone=America/Mexico_City", "-c", "log_timezone=America/Mexico_City"]
+    ports:
+      - "5423:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
